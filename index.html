@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CoreStay Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F28;--bg2:#131A45;--card:#161E4B;--tx:#F7F2E6;--mut:#BDC3E0;--line:#2F3A72;--gold:#EBC96B;--err:#FF9DB0;color-scheme:dark}
+:root[data-t=light]{--bg:#F8F4E9;--bg2:#EFE7D0;--card:#FFFFFF;--tx:#181A3C;--mut:#4B5079;--line:#DCD2B3;--gold:#7E5B0A;--err:#B01553;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 'DM Sans',system-ui,sans-serif;color:var(--tx);background:radial-gradient(900px 520px at 90% -10%,rgba(139,92,255,.30),transparent),radial-gradient(760px 520px at -10% 105%,rgba(20,200,180,.22),transparent),var(--bg);min-height:100vh}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;margin:0;font-weight:700}
+h1{font-size:38px;line-height:1.1}h2{font-size:24px;margin-bottom:12px}
+.mut{color:var(--mut)}.sub{font-size:13px}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:9;background:#fff;color:#000;padding:10px 14px;border-radius:10px}
+:focus-visible{outline:3px solid #7CC4FF;outline-offset:2px}
+.app{display:flex;min-height:100vh}
+aside{width:262px;flex:none;position:sticky;top:0;height:100vh;overflow:auto;padding:22px 14px;background:linear-gradient(180deg,#080B20,#1A1052);border-right:1px solid rgba(235,201,107,.35);color:#F7F2E6}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:0 6px}.brand img{width:64px;height:auto}.brand b{font:700 26px 'Cormorant Garamond',Georgia,serif;color:#EBC96B}
+.sec{margin:18px 10px 6px;font-size:13px;color:#EBC96B;font-weight:700}
+nav a{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 14px;border-radius:14px;color:#DDE0F5;text-decoration:none;font-weight:500}
+nav a i{width:10px;height:10px;border-radius:50%;flex:none}
+nav a:hover{background:rgba(255,255,255,.08)}
+nav a[aria-current]{background:linear-gradient(135deg,#F4DC8F,#C99A2E);color:#1B1403;font-weight:700}
+main{flex:1;min-width:0;padding:30px;display:flex;flex-direction:column;gap:22px}
+.hd,.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.hd{justify-content:space-between}.end{justify-content:flex-end;margin-top:14px}
+.btn{min-height:44px;padding:0 20px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--tx);font:700 14px 'DM Sans',sans-serif;cursor:pointer}
+.btn:hover{border-color:var(--gold)}.btn.gold{background:linear-gradient(135deg,#F4DC8F,#C99A2E);color:#1B1403;border:0}
+.btn.sm{min-height:36px;padding:0 14px;font-size:13px}.btn.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.btn.dg{color:var(--err);border-color:var(--err)}
+select,input:not([type=checkbox]),textarea{width:100%;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--tx);padding:0 12px;font:inherit}
+textarea{padding:10px 12px}.row select{width:auto}
+label{display:block;margin-top:12px;font-weight:700;font-size:13px}label select,label input,label textarea{margin-top:5px;font-weight:400}
+label.chk{display:flex;gap:10px;align-items:center;min-height:44px}label.chk input{width:20px;height:20px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.k{border-radius:26px 26px 26px 6px;padding:18px 20px;color:#0A0F28;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 12px 28px rgba(0,0,0,.28)}
+.k span{font-weight:700}.k b{display:block;font:700 44px/1.1 'Cormorant Garamond',Georgia,serif}.k small{font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,.22)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px}
+.b{display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:99px;font-size:12px;font-weight:700;background:var(--c);color:#0A0F28;white-space:nowrap}
+.bar{display:grid;grid-template-columns:150px 1fr 36px;gap:12px;align-items:center;margin:9px 0}.bar i{display:block;height:14px;border-radius:99px;background:var(--c)}.bar div{background:var(--bg2);border-radius:99px}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.tile{all:unset;box-sizing:border-box;cursor:pointer;min-height:98px;padding:12px;border-radius:16px;background:var(--c);color:#0A0F28;display:flex;flex-direction:column;gap:2px;border-top:4px solid rgba(255,255,255,.55);box-shadow:0 8px 18px rgba(0,0,0,.25)}
+.tile:hover{transform:translateY(-2px)}.tile:focus-visible{outline:3px solid #7CC4FF;outline-offset:2px}
+.tile b{font:700 26px/1 'Cormorant Garamond',Georgia,serif}.tile small{font-size:12px;font-weight:500}.tile em{font-style:normal;font-weight:700;font-size:12px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:820px}
+th{text-align:left;color:var(--gold);font-size:13px;padding:10px 8px;border-bottom:2px solid var(--line)}td{padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.late{color:var(--err);font-weight:700}.err{color:var(--err);min-height:20px;margin:8px 0 0}
+dialog{width:min(580px,94vw);max-height:92vh;overflow:auto;background:var(--card);color:var(--tx);border:1px solid var(--gold);border-radius:24px;padding:26px}
+dialog::backdrop{background:rgba(4,6,20,.72)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:linear-gradient(135deg,#F4DC8F,#C99A2E);color:#1B1403;font-weight:700;padding:12px 22px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}#toast.show{opacity:1}
+.ft{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:13px;color:var(--mut)}.ft a{color:inherit;font-weight:700}
+.li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+@media(max-width:900px){.app{display:block}aside{position:static;width:auto;height:auto;padding:12px}nav{display:flex;gap:6px;overflow-x:auto}.sec{display:none}nav a{flex:none}main{padding:16px}h1{font-size:30px}.bar{grid-template-columns:110px 1fr 30px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<a class="skip" href="#main">Lewati ke konten</a>
+<div class="app"><aside><div class="brand"><img src="assets/logo.png" alt="CoreStay Advisory"><b>Ops</b></div><nav id="nav" aria-label="Menu utama"></nav></aside><main id="main" tabindex="-1"></main></div>
+<dialog id="dlg" aria-labelledby="dt"></dialog><div id="toast" role="status" aria-live="polite"></div>
+<script>
+const HOT=['Bandung','Jakarta','Bali','Surabaya'],VER='1.0.0',BUILD='2026-11-09',KEY='corestay-ops-v1',TK='corestay-ops-theme';
+const ST={VD:['Vacant Dirty','Kosong kotor','#FF5C7A'],CL:['Cleaning','Sedang dibersihkan','#FFB020'],VC:['Vacant Clean','Kosong bersih','#35D0E0'],VI:['Inspected','Siap dijual','#34E3A0'],OD:['Occupied Dirty','Terisi kotor','#FF8F5A'],OC:['Occupied Clean','Terisi bersih','#8B9BFF'],OOO:['Out of Order','Diblokir teknik','#C77DFF']};
+const PRI={E:['Emergency',15,240,'#FF5C7A'],U:['Urgent',30,480,'#FF8F5A'],H:['High',120,1440,'#FFB020'],N:['Normal',480,4320,'#35D0E0'],L:['Low',1440,10080,'#8B9BFF']};
+const WS={open:'Baru',asg:'Ditugaskan',prog:'Dikerjakan',parts:'Menunggu suku cadang',done:'Menunggu verifikasi',closed:'Ditutup',cancel:'Dibatalkan'},ACTV=['open','asg','prog','parts'];
+const CAT=['AC dan HVAC','Listrik','Plumbing','Furnitur dan kayu','Lift','Pemadam dan K3','Kolam dan mekanikal','IT dan TV'];
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const now=()=>Date.now(),iso=t=>new Date(t).toISOString(),ago=m=>iso(now()-m*6e4),ds=d=>d.toISOString().slice(0,10),today=()=>ds(new Date()),add=(s,n)=>ds(new Date(new Date(s).getTime()+n*864e5));
+const fmt=t=>new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});
+const dur=m=>m<60?Math.round(m)+' mnt':m<1440?(m/60).toFixed(1).replace('.',',')+' jam':Math.round(m/1440)+' hari';
+const hc=h=>h.slice(0,3).toUpperCase();
+function seed(){
+ const N1=['Sari','Budi','Dewi','Agus','Rina','Joko','Wulan','Hadi','Putri','Eko','Maya','Rudi'],N2=['Wijaya','Santoso','Lestari','Pratama','Hidayat','Kusuma'];let k=0;const nm=()=>N1[k%12]+' '+N2[(k++*5)%6];
+ const staff=[],rooms=[];
+ HOT.forEach((h,hi)=>{for(let i=0;i<3;i++)staff.push({id:'h'+hi+i,name:nm(),hotel:h,role:'hk'});for(let i=0;i<2;i++)staff.push({id:'e'+hi+i,name:nm(),hotel:h,role:'eng'});
+  for(let f=1;f<=4;f++)for(let r=1;r<=5;r++){const n=f*100+r,x=((f-1)*5+r*3+hi*2)%10,st=['VI','OC','VD','OD','VC','OC','VI','CL','OC','VD'][x],dirty=['VD','OD','CL'].includes(st);
+   rooms.push({id:hc(h)+'-'+n,hotel:h,no:n,floor:f,type:f<3?'Superior':f===3?'Deluxe':'Suite',st,occ:{VD:x%2?'vac':'arr',OD:'stay',OC:'stay',CL:'vac',VI:'arr',VC:'vac'}[st],dnd:n%17===0&&st==='OC',att:dirty?'h'+hi+(n%3):'',note:''})}});
+ const W=[[0,'204','AC dan HVAC','U','AC kamar tidak dingin','prog',700,'e00',1],[1,'','Plumbing','E','Kebocoran pipa area lobi','asg',20,'e10',0],[2,'302','Listrik','H','Stopkontak kamar tidak berfungsi','open',200,'',0],[3,'','Lift','N','Lift barang berbunyi kasar','parts',3000,'e30',0],[0,'','Pemadam dan K3','N','Ganti APAR kedaluwarsa lantai 2','done',500,'e01',0],[1,'403','Furnitur dan kayu','L','Engsel lemari longgar','open',90,'',0],[2,'','Kolam dan mekanikal','H','Pompa kolam bising','prog',600,'e21',0]];
+ const wo=W.map((a,i)=>({id:'w'+i,no:'WO-'+String(i+1).padStart(4,'0'),hotel:HOT[a[0]],room:a[1]?hc(HOT[a[0]])+'-'+a[1]:'',loc:a[1]?'Kamar '+a[1]:'Area umum',cat:a[2],pri:a[3],title:a[4],desc:'',st:a[5],created:ago(a[6]),tech:a[7],block:!!a[8],notes:''}));
+ wo.filter(w=>w.block).forEach(w=>{const r=rooms.find(x=>x.id===w.room);r.st='OOO';r.occ='vac';r.att=''});
+ const P=[['Servis chiller AC',0,90,100],['Tes genset berbeban',1,7,3],['Cek APAR dan hydrant',2,30,31],['Bersihkan grease trap dapur',3,14,10],['Inspeksi lift penumpang',1,30,12],['Uji alarm kebakaran',0,30,29],['Kuras dan klorin tandon air',2,90,40],['Servis pompa kolam',3,30,35]];
+ return{v:1,rooms,staff,wo,pm:P.map((p,i)=>({id:'p'+i,name:p[0],hotel:HOT[p[1]],freq:p[2],last:add(today(),-p[3])})),log:[],seq:W.length+1}}
+let S=(()=>{try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&d.v===1)return d}catch(e){}return seed()})();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},R=id=>S.rooms.find(x=>x.id===id),T=id=>S.staff.find(x=>x.id===id);
+const logA=(m,r)=>{S.log.unshift({t:iso(now()),m,r:r||''});S.log.length=Math.min(S.log.length,300)};
+let UI={f:'Semua',v:'dash',rs:'Semua',ws:'aktif'},OK=null,tt;
+const fh=a=>a.filter(x=>UI.f==='Semua'||x.hotel===UI.f),badge=(l,c)=>`<span class="b" style="--c:${c}">${l}</span>`;
+const toast=m=>{const t=$('#toast');t.textContent=m;t.className='show';clearTimeout(tt);tt=setTimeout(()=>t.className='',2600)};
+function sla(w){if(!ACTV.includes(w.st))return{t:'',late:false};const p=PRI[w.pri],age=(now()-new Date(w.created))/6e4,left=p[2]-age,rl=w.st==='open'&&age>p[1];return{late:left<0||rl,t:left<0?'Lewat '+dur(-left):rl?'Respon terlambat':'Sisa '+dur(left)}}
+const pmDue=p=>add(p.last,p.freq),pmSt=p=>{const d=pmDue(p);return d<today()?['Terlambat','#FF5C7A']:d<=add(today(),7)?['Segera','#FFB020']:['Terjadwal','#34E3A0']};
+const kpi=(a,b,l,v,s)=>`<div class="k" style="--a:${a};--b:${b}"><span>${l}</span><b>${v}</b><small>${s}</small></div>`;
+const V={
+dash(){const rs=fh(S.rooms),c=k=>rs.filter(r=>r.st===k).length,wo=fh(S.wo),act=wo.filter(w=>ACTV.includes(w.st)),pm=fh(S.pm).filter(p=>pmSt(p)[0]==='Terlambat');
+ const bars=Object.entries(ST).map(([k,v])=>`<div class="bar"><span>${k} ${v[1]}</span><div><i style="--c:${v[2]};width:${rs.length?c(k)/rs.length*100:0}%"></i></div><b>${c(k)}</b></div>`).join('');
+ const pb=Object.entries(PRI).map(([k,v])=>`<div class="bar"><span>${v[0]}</span><div><i style="--c:${v[3]};width:${act.length?act.filter(w=>w.pri===k).length/act.length*100:0}%"></i></div><b>${act.filter(w=>w.pri===k).length}</b></div>`).join('');
+ const rows=HOT.filter(h=>UI.f==='Semua'||h===UI.f).map(h=>{const r=S.rooms.filter(x=>x.hotel===h);return`<tr><td><b>${h}</b></td><td>${Math.round(r.filter(x=>x.st==='VI').length/r.length*100)}%</td><td>${r.filter(x=>x.st==='VD'||x.st==='OD').length}</td><td>${r.filter(x=>x.st==='OOO').length}</td><td>${S.wo.filter(w=>w.hotel===h&&ACTV.includes(w.st)).length}</td></tr>`}).join('');
+ return`<div class="g">${kpi('#34E3A0','#35D0E0','Kamar siap dijual',c('VI'),'Sudah diinspeksi')}${kpi('#FF5C7A','#FF8F5A','Perlu dibersihkan',c('VD')+c('OD'),'Kosong dan terisi kotor')}${kpi('#FFB020','#FFE08A','Sedang dibersihkan',c('CL'),'Dikerjakan petugas')}${kpi('#C77DFF','#8B9BFF','Kamar diblokir',c('OOO'),'Out of Order')}</div>
+ <div class="g">${kpi('#FF8F5A','#FFB020','Work order aktif',act.length,'Baru sampai menunggu suku cadang')}${kpi('#FF5C7A','#C77DFF','Melewati SLA',act.filter(w=>sla(w).late).length,'Perlu ditindak')}${kpi('#35D0E0','#8B9BFF','PM terlambat',pm.length,'Preventive maintenance')}${kpi('#EBC96B','#FFE9A8','Menunggu verifikasi',wo.filter(w=>w.st==='done').length,'Pekerjaan selesai')}</div>
+ <div class="two"><section class="card"><h2>Status kamar</h2>${bars}</section><section class="card"><h2>Work order aktif per prioritas</h2>${pb}</section></div>
+ <div class="two"><section class="card"><h2>Kesiapan per hotel</h2><div class="tw"><table style="min-width:420px"><thead><tr><th>Hotel</th><th>Siap jual</th><th>Perlu bersih</th><th>Diblokir</th><th>WO aktif</th></tr></thead><tbody>${rows}</tbody></table></div></section>
+ <section class="card"><h2>Aktivitas terbaru</h2>${S.log.slice(0,7).map(l=>`<div class="li"><span>${esc(l.m)}</span><span class="mut sub">${fmt(l.t)}</span></div>`).join('')||'<p class="mut">Belum ada aktivitas. Ubah status kamar atau buat work order untuk memulai.</p>'}</section></div>`},
+rooms(){const chips=['Semua',...Object.keys(ST)].map(k=>`<button class="btn sm${UI.rs===k?' on':''}" data-a="fs:${k}" aria-pressed="${UI.rs===k}">${k==='Semua'?'Semua':k+' '+ST[k][1]}</button>`).join('');
+ const sec=HOT.filter(h=>UI.f==='Semua'||h===UI.f).map(h=>`<section class="card"><h2>${h}</h2><div class="board">${S.rooms.filter(r=>r.hotel===h&&(UI.rs==='Semua'||r.st===UI.rs)).map(r=>`<button class="tile" style="--c:${ST[r.st][2]}" data-a="room:${r.id}" aria-label="Kamar ${r.no} ${h}, ${ST[r.st][1]}"><b>${r.no}</b><em>${r.st}${r.dnd?' DND':''}</em><small>${r.type}</small><small>${r.att&&T(r.att)?T(r.att).name.split(' ')[0]:'&nbsp;'}</small></button>`).join('')||'<p class="mut">Tidak ada kamar dengan status ini.</p>'}</div></section>`).join('');
+ return`<div class="row" role="group" aria-label="Filter status">${chips}</div>${sec}`},
+wo(){const L=fh(S.wo).filter(w=>UI.ws==='semua'||(UI.ws==='aktif'?ACTV.concat('done').includes(w.st):!ACTV.includes(w.st))).sort((a,b)=>b.created.localeCompare(a.created));
+ const chips=[['aktif','Aktif'],['semua','Semua'],['selesai','Selesai dan ditutup']].map(c=>`<button class="btn sm${UI.ws===c[0]?' on':''}" data-a="ws:${c[0]}" aria-pressed="${UI.ws===c[0]}">${c[1]}</button>`).join('');
+ const bt=(a,id,l,c)=>`<button class="btn sm ${c||''}" data-a="wst:${id}:${a}">${l}</button> `,AC={open:(i)=>bt('asg',i,'Tugaskan','gold')+bt('cancel',i,'Batalkan','dg'),asg:i=>bt('start',i,'Mulai kerjakan','gold')+bt('cancel',i,'Batalkan','dg'),prog:i=>bt('done',i,'Selesaikan','gold')+bt('hold',i,'Tunggu suku cadang'),parts:i=>bt('resume',i,'Lanjutkan','gold'),done:i=>bt('close',i,'Verifikasi dan tutup','gold')+bt('reopen',i,'Buka kembali'),closed:()=>'',cancel:()=>''};
+ const rows=L.map(w=>{const s=sla(w);return`<tr><td><b>${w.no}</b></td><td>${esc(w.title)}<br><span class="mut sub">${esc(w.loc)}${w.block?' (kamar diblokir)':''}</span></td><td>${w.hotel}<br><span class="mut sub">${w.cat}</span></td><td>${badge(PRI[w.pri][0],PRI[w.pri][3])}</td><td>${WS[w.st]}<br><span class="sub ${s.late?'late':'mut'}">${s.t}</span></td><td>${w.tech&&T(w.tech)?esc(T(w.tech).name):'<span class="mut">Belum ada</span>'}</td><td>${AC[w.st](w.id)}</td></tr>`}).join('');
+ return`<div class="row" role="group" aria-label="Filter work order">${chips}</div><section class="card"><div class="tw"><table><thead><tr><th>No.</th><th>Masalah</th><th>Hotel</th><th>Prioritas</th><th>Status dan SLA</th><th>Teknisi</th><th>Tindakan</th></tr></thead><tbody>${rows||'<tr><td colspan="7" class="mut">Belum ada work order. Pilih Buat work order untuk memulai.</td></tr>'}</tbody></table></div></section>`},
+pm(){const rows=fh(S.pm).sort((a,b)=>pmDue(a).localeCompare(pmDue(b))).map(p=>{const s=pmSt(p);return`<tr><td><b>${esc(p.name)}</b></td><td>${p.hotel}</td><td>Tiap ${p.freq} hari</td><td>${p.last}</td><td>${pmDue(p)}</td><td>${badge(s[0],s[1])}</td><td><button class="btn sm gold" data-a="pmdone:${p.id}">Tandai selesai</button> <button class="btn sm" data-a="pmwo:${p.id}">Buat work order</button></td></tr>`}).join('');
+ return`<section class="card"><div class="tw"><table><thead><tr><th>Tugas</th><th>Hotel</th><th>Frekuensi</th><th>Terakhir</th><th>Jatuh tempo</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>${rows||'<tr><td colspan="7" class="mut">Belum ada jadwal PM.</td></tr>'}</tbody></table></div></section>`},
+set(){return`<div class="two"><section class="card"><h2>Tentang aplikasi</h2><p><b>CoreStay Ops</b>, versi ${VER}, build ${BUILD}</p><p class="mut">Versi 1.0.0: status kamar Housekeeping, work order Engineering dengan SLA, dan preventive maintenance.</p><div class="row"><button class="btn" data-a="export">Unduh cadangan</button><button class="btn dg" data-a="reset">Kembalikan data contoh</button></div></section>
+ <section class="card"><h2>Target SLA work order</h2>${Object.values(PRI).map(p=>`<div class="li"><span>${badge(p[0],p[3])}</span><span class="mut sub">Respon ${dur(p[1])}, selesai ${dur(p[2])}</span></div>`).join('')}</section></div>
+ <section class="card"><h2>Jejak aktivitas</h2>${S.log.slice(0,20).map(l=>`<div class="li"><span>${esc(l.m)}</span><span class="mut sub">${fmt(l.t)}</span></div>`).join('')||'<p class="mut">Belum ada aktivitas.</p>'}</section>`}};
+const TITLES={dash:['Beranda','Kesiapan kamar dan kondisi teknik hari ini.'],rooms:['Status kamar','Papan status Housekeeping. Pilih kamar untuk memperbarui.'],wo:['Work order','Permintaan perbaikan Engineering beserta target SLA.'],pm:['Preventive maintenance','Jadwal perawatan berkala peralatan hotel.'],set:['Pengaturan','Informasi aplikasi, standar SLA, dan data.']};
+const NAV=[['Ringkasan'],['dash','Beranda','#EBC96B'],['Housekeeping'],['rooms','Status kamar','#35D0E0'],['Engineering'],['wo','Work order','#FF8F5A'],['pm','Preventive maintenance','#34E3A0'],['Sistem'],['set','Pengaturan','#C77DFF']];
+const BTN={wo:['Buat work order','newwo']};
+function render(){const T0=TITLES[UI.v],b=BTN[UI.v],dk=document.documentElement.dataset.t!=='light';
+ $('#nav').innerHTML=NAV.map(n=>n.length===1?`<p class="sec">${n[0]}</p>`:`<a href="#${n[0]}"${UI.v===n[0]?' aria-current="page"':''}><i style="background:${n[2]}"></i>${n[1]}</a>`).join('');
+ $('#main').innerHTML=`<header class="hd"><div><h1>${T0[0]}</h1><p class="mut">${T0[1]}</p></div><div class="row">${UI.v==='set'?'':`<select id="hf" aria-label="Filter hotel"><option>Semua</option>${HOT.map(h=>`<option${UI.f===h?' selected':''}>${h}</option>`).join('')}</select>`}<button class="btn" data-a="theme" aria-label="Ganti tema">${dk?'Mode terang':'Mode gelap'}</button>${b?`<button class="btn gold" data-a="${b[1]}">${b[0]}</button>`:''}</div></header>`+V[UI.v]()+`<footer class="ft"><span>&copy; ${new Date().getFullYear()} CoreStay Advisory</span><span>CoreStay Ops, <a href="#set">versi ${VER}</a>, build ${BUILD}</span><span>Data tersimpan di browser ini</span></footer>`;
+ const f=$('#hf');if(f)f.onchange=()=>{UI.f=f.value;render()}}
+function dlg(t,b,ok,fn){const d=$('#dlg');if(d.open)d.close();OK=fn;d.innerHTML=`<h2 id="dt">${t}</h2><form id="df">${b}<p class="err" id="er" role="alert"></p><div class="row end"><button type="button" class="btn" data-a="close">Tutup</button>${ok?`<button class="btn gold" type="submit">${ok}</button>`:''}</div></form>`;d.showModal()}
+$('#dlg').addEventListener('submit',e=>{e.preventDefault();if(!OK)return;const m=OK(new FormData(e.target));if(m)$('#er').textContent=m;else{$('#dlg').close();save();render()}});
+const hs=v=>HOT.map(h=>`<option${h===v?' selected':''}>${h}</option>`).join('');
+function woForm(p={}){const h=p.hotel||(UI.f!=='Semua'?UI.f:HOT[0]);
+ dlg('Buat work order',`<label>Hotel<select name="hotel">${hs(h)}</select></label><label>Nomor kamar (kosongkan bila bukan kamar)<input name="room" inputmode="numeric" value="${p.no||''}"></label><label>Lokasi lain (misalnya lobi, dapur, atap)<input name="loc"></label><label>Kategori<select name="cat">${CAT.map(c=>`<option${c===p.cat?' selected':''}>${c}</option>`).join('')}</select></label><label>Prioritas<select name="pri">${Object.entries(PRI).map(([k,v])=>`<option value="${k}"${k==='N'?' selected':''}>${v[0]}: respon ${dur(v[1])}, selesai ${dur(v[2])}</option>`).join('')}</select></label><label>Judul masalah<input name="title" value="${esc(p.title||'')}"></label><label>Deskripsi<textarea name="desc" rows="3"></textarea></label><label class="chk"><input type="checkbox" name="block"> Blokir kamar (Out of Order)</label>`,'Simpan work order',f=>{
+  const hotel=f.get('hotel'),no=f.get('room').trim(),r=no?R(hc(hotel)+'-'+no):null,loc=f.get('loc').trim();
+  if(!f.get('title').trim())return'Isi judul masalah.';if(no&&!r)return'Kamar '+no+' tidak ditemukan di hotel '+hotel+'.';if(f.get('block')&&!r)return'Isi nomor kamar untuk memblokir kamar.';
+  const w={id:'w'+S.seq,no:'WO-'+String(S.seq++).padStart(4,'0'),hotel,room:r?r.id:'',loc:r?'Kamar '+r.no:loc||'Area umum',cat:f.get('cat'),pri:f.get('pri'),title:f.get('title').trim(),desc:f.get('desc'),st:'open',created:iso(now()),tech:'',block:!!f.get('block'),notes:''};
+  if(w.block){r.st='OOO';r.att=''}S.wo.unshift(w);logA('Buat '+w.no+': '+w.title,r&&r.id);toast(w.no+' dibuat')})}
+function roomDlg(id){const r=R(id),hk=S.staff.filter(s=>s.hotel===r.hotel&&s.role==='hk'),occ=r.occ==='stay'||r.occ==='dep',blk=S.wo.find(w=>w.room===id&&w.block&&[...ACTV,'done'].includes(w.st)),A=[];
+ if(r.st==='VD'||r.st==='OD')A.push(['Mulai bersihkan','rs:'+id+':CL',1]);if(r.st==='CL')A.push(['Selesai bersihkan','rs:'+id+':'+(occ?'OC':'VC'),1]);
+ if(r.st==='VC')A.push(['Lulus inspeksi','insp:'+id+':1',1],['Gagal inspeksi','insp:'+id+':0']);if(r.st==='VI')A.push(['Tamu check-in','cin:'+id]);if(r.st==='OC'||r.st==='OD')A.push(['Tamu check-out','cout:'+id]);A.push(['Laporkan kerusakan','defect:'+id]);
+ dlg('Kamar '+r.no+' '+r.hotel,`<p>${badge(r.st+' '+ST[r.st][1],ST[r.st][2])} <span class="mut">${r.type}, lantai ${r.floor}, ${occ?'terisi':'kosong'}</span></p>${blk?`<p>Diblokir oleh <b>${blk.no}</b>: ${esc(blk.title)}. Kamar dibuka setelah work order selesai.</p>`:''}<div class="row">${A.map(a=>`<button type="button" class="btn sm${a[2]?' gold':''}" data-a="${a[1]}">${a[0]}</button>`).join('')}</div><label>Petugas<select name="att"><option value="">Belum ditugaskan</option>${hk.map(s=>`<option value="${s.id}"${s.id===r.att?' selected':''}>${esc(s.name)}</option>`).join('')}</select></label><label class="chk"><input type="checkbox" name="dnd"${r.dnd?' checked':''}> Do Not Disturb</label><label>Catatan<input name="note" value="${esc(r.note)}"></label>`,'Simpan',f=>{r.att=f.get('att');r.dnd=!!f.get('dnd');r.note=f.get('note');logA('Perbarui kamar '+r.no+' '+r.hotel,id);toast('Kamar '+r.no+' disimpan')})}
+const setRoom=(id,st,m)=>{const r=R(id);r.st=st;logA(m,id);save();$('#dlg').close();render();toast(m)};
+const rel=w=>{const r=w.block&&R(w.room);if(r&&r.st==='OOO'){r.st='VD';r.occ='vac';logA('Kamar '+r.no+' '+r.hotel+' dibuka, perlu dibersihkan',r.id)}};
+const wsave=(w,m)=>{logA(w.no+': '+m);save();render();toast(w.no+': '+m)};
+const ACT={close:()=>$('#dlg').close(),theme(){const t=document.documentElement.dataset.t==='light'?'dark':'light';document.documentElement.dataset.t=t;try{localStorage.setItem(TK,t)}catch(e){}render()},
+ fs(a){UI.rs=a;render()},rs(id,st){const r=R(id);setRoom(id,st,'Kamar '+r.no+' '+r.hotel+(st==='CL'?': mulai dibersihkan':': selesai dibersihkan'))},ws(a){UI.ws=a;render()},room:roomDlg,newwo:()=>woForm(),defect(id){const r=R(id);woForm({hotel:r.hotel,no:r.no})},
+cin:id=>{const r=R(id);r.occ='stay';setRoom(id,'OC','Kamar '+r.no+' '+r.hotel+': tamu check-in')},cout:id=>{const r=R(id);r.occ='vac';r.dnd=false;setRoom(id,'VD','Kamar '+r.no+' '+r.hotel+': tamu check-out, perlu dibersihkan')},
+ insp:(id,ok)=>{const r=R(id);setRoom(id,ok==='1'?'VI':'VD','Inspeksi kamar '+r.no+' '+r.hotel+(ok==='1'?' lulus, siap dijual':' gagal, dibersihkan ulang'))},
+ pmdone(id){const p=S.pm.find(x=>x.id===id);p.last=today();logA('PM selesai: '+p.name+' ('+p.hotel+')');save();render();toast('PM selesai: '+p.name)},pmwo(id){const p=S.pm.find(x=>x.id===id);woForm({hotel:p.hotel,title:p.name,cat:p.name.match(/AC|chiller/i)?CAT[0]:p.name.match(/lift/i)?CAT[4]:p.name.match(/APAR|alarm|hydrant/i)?CAT[5]:p.name.match(/kolam|pompa/i)?CAT[6]:CAT[1]})},
+ wst(id,a){const w=S.wo.find(x=>x.id===id);
+  if(a==='asg'){const te=S.staff.filter(s=>s.hotel===w.hotel&&s.role==='eng');return dlg('Tugaskan '+w.no,`<p class="mut">${esc(w.title)}</p><label>Teknisi<select name="t">${te.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></label>`,'Tugaskan',f=>{w.tech=f.get('t');w.st='asg';wsave(w,'ditugaskan ke '+T(w.tech).name)})}
+  if(a==='done'||a==='cancel'){const dn=a==='done';return dlg((dn?'Selesaikan ':'Batalkan ')+w.no,`<p class="mut">${esc(w.title)}</p><label>${dn?'Catatan pekerjaan dan suku cadang yang dipakai':'Alasan pembatalan'}<textarea name="n" rows="3"></textarea></label>`,dn?'Tandai selesai':'Batalkan',f=>{if(!f.get('n').trim())return dn?'Isi catatan pekerjaan.':'Isi alasan pembatalan.';w.notes=f.get('n').trim();w.st=dn?'done':'cancel';rel(w);wsave(w,dn?'selesai, menunggu verifikasi':'dibatalkan')})}
+  const m={start:['prog','dikerjakan'],hold:['parts','menunggu suku cadang'],resume:['prog','dilanjutkan'],close:['closed','diverifikasi dan ditutup'],reopen:['prog','dibuka kembali']}[a];w.st=m[0];if(a==='reopen'&&w.block&&R(w.room))R(w.room).st='OOO';wsave(w,m[1])},
+ export(){const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([JSON.stringify({app:'corestay-ops',version:VER,data:S},null,2)],{type:'application/json'}));l.download='corestay-ops-'+today()+'.json';document.body.appendChild(l);l.click();l.remove()},
+ reset(){dlg('Kembalikan data contoh?','<p class="mut">Semua perubahan akan diganti dengan data contoh.</p>','Kembalikan',()=>{S=seed();logA('Data contoh dikembalikan');toast('Data contoh dikembalikan')})}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const[a,...p]=b.dataset.a.split(':');if(ACT[a])ACT[a](...p)});
+document.documentElement.dataset.t=(()=>{try{return localStorage.getItem(TK)||'dark'}catch(e){return'dark'}})();
+const route=()=>{const h=location.hash.slice(1);UI.v=Object.prototype.hasOwnProperty.call(V,h)?h:'dash';render()};
+addEventListener('hashchange',route);route();
+</script></body></html>
