@@ -1,24 +1,19 @@
-# CoreStay Ops
+# CoreStay Ops — Housekeeping & Engineering
 
-**Versi 1.1.0** (build 2026-11-09)
+Aplikasi operasional hotel: papan kamar (Housekeeping), work order, preventive maintenance, inventori, dan energi (Engineering).
 
-Aplikasi web statis untuk Housekeeping dan Engineering hotel (HTML, CSS, JavaScript tanpa build). Buka `index.html` atau unggah folder ini ke hosting statis. Data tersimpan di browser (localStorage).
+Aplikasi berupa satu file statis (`index.html`) tanpa build step dan tanpa backend. Data tersimpan di browser (localStorage).
 
-## Isi
-- **Beranda:** kesiapan kamar, work order aktif, SLA, PM terlambat, kesiapan per hotel, aktivitas terbaru.
-- **Status kamar (Housekeeping):** papan kamar dengan kode standar VD, CL, VC, VI, OD, OC, OOO. Alur: bersihkan, inspeksi, siap dijual, check-in, check-out. Petugas, Do Not Disturb, catatan, dan laporan kerusakan.
-- **Work order (Engineering):** prioritas Emergency sampai Low dengan target SLA, alur Baru, Ditugaskan, Dikerjakan, Menunggu suku cadang, Selesai, Ditutup. Blokir kamar (OOO) otomatis dibuka dan kamar kembali kotor saat pekerjaan selesai.
-- **Preventive maintenance:** jadwal berkala, status terlambat atau segera, tandai selesai, dan buat work order dari jadwal.
-- **Linen dan chemical (Housekeeping):** stok per hotel, par level, batas minimum, pemakaian, rusak atau hilang, dan catat mutasi (masuk, pakai, rusak atau hilang).
-- **Tools dan suku cadang (Engineering):** stok dan mutasi yang bisa dikaitkan dengan nomor work order.
-- **Laporan operasional (manajemen):** aktivitas kamar per hotel, laporan linen, laporan chemical (rata-rata pakai, perkiraan cukup berapa hari, pakai per kamar dibersihkan), kinerja work order (dibuat, selesai, kepatuhan SLA, waktu rata-rata), PM, serta tools dan suku cadang. Periode 7, 30, atau 90 hari, bisa dicetak.
-- **Pengaturan:** versi, target SLA, cadangan data, kembalikan data contoh, jejak aktivitas.
+## Menjalankan lokal
+Buka `index.html` di browser.
 
-## Standar antarmuka
-Landmark dan skip link, fokus keyboard terlihat, target sentuh minimal 44 px (36 px pada tombol tabel), status selalu memakai kode dan teks selain warna, notifikasi `aria-live`, mode gelap dan terang, responsif, dan menghormati `prefers-reduced-motion`.
+## Deploy ke GitHub Pages
+1. Buat repository baru di GitHub (mis. `corestay-ops`).
+2. Upload semua file di folder ini (`index.html`, `README.md`, `.nojekyll`).
+3. Buka **Settings → Pages**.
+4. Pada *Build and deployment*, pilih **Deploy from a branch**, branch `main`, folder `/ (root)`, lalu **Save**.
+5. Tunggu 1–2 menit; aplikasi tersedia di `https://USERNAME.github.io/corestay-ops/`.
 
-## Belum ada
-Inspeksi dengan checklist, penugasan otomatis, Lost and Found, register aset, meter utilitas, serta impor cadangan. Data versi 1.0.0 tidak dimigrasi.
-
-## Versi
-Ubah konstanta `VER` dan `BUILD` di `index.html` setiap rilis.
+## Catatan
+- Font Inter & Playfair Display dimuat dari Google Fonts (perlu internet; ada fallback bawaan).
+- Data hanya tersimpan di browser masing-masing pengguna.
